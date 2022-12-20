@@ -8,46 +8,64 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
+    public function index()
+    {
+        $events = Events::all();
+        return response()->json(["events" => $events]);
+    }
     public function store(Request $request)
     {
 
         $request->validate(
             [
-                'nickname' => 'required|string',
+
                 'type' => 'required|string',
-                'date' => 'required|string',
+                'title' => 'required|string',
+                'date' => 'required',
                 'hours' => 'required|string',
                 'adress' => 'required|string|min:5',
                 'city' => 'required|string',
-                'zip-code' => 'required|numeric|min:5',
+                'zip_code' => 'required|integer|min:5',
                 'description' => 'required|string|max:255',
             ],
             [
-                'nickname.required' => 'Veuillez saisir un Nom d\'artiste valide',
+
                 'type.required' => 'Veuillez saisir un type d\'événement valide',
                 'date.required' => 'Veuillez saisir une date valide',
                 'hours.required' => 'Veuillez saisir un horaire valide',
                 'city.required' => 'Veuillez saisir une ville',
-                'zip-code.required' => 'Veuillez saisir une ville',
-                'zip-code.min' => 'Veuillez saisir un code postal valide',
-                'description.required' => 'Description trop longue',
+                'zip_code.required' => 'Veuillez saisir un code postal',
+                'zip_code.min' => 'Veuillez saisir un code postal valide',
+                'description.required' => 'Veuillez saisir une description',
+                'title.required' => 'Veuillez saisir un titre',
+
 
             ]
         );
 
         $event = Events::create([
             'id_user' => $request['id_user'],
-            'nickname' => $request['nickname'],
+            'title' => $request['title'],
+            'image' => $request['image'],
             'type' => $request['type'],
             'date' => $request['date'],
             'hours' => $request['hours'],
             'adress' => $request['adress'],
             'city' => $request['city'],
-            'zip-code' => $request['zip-code'],
+            'zip_code' => $request['zip_code'],
             'description' => $request['description'],
 
         ]);
 
         return response()->json(['event' => 'événement enregistré !', 'info-event' => $event]);
+    }
+    public function upload(Request $request)
+    {
+
+        // $request->image;
+        // $filename = time() . '.' . $request->image->extension();
+        // $request->file('image')->storeAs('images', $filename, 'public');
+        $pathToFile = $request->file('image')->store('images', 'public');
+        return response()->json(['message' => 'Ajout de photo réussie', 'url' => $pathToFile]);
     }
 }

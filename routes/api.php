@@ -32,3 +32,9 @@ Route::middleware('auth:sanctum')->delete('/profil', [UserController::class, 'de
 
 // Enregistrement d'un événement
 Route::middleware('auth:sanctum')->post('/add-event', [EventController::class, 'store'])->name('add-event');
+
+// Ajout d'une photo
+Route::post('/upload', [EventController::class, 'upload'])->name('upload.store');
+
+// Récupération de tous les événements
+Route::get('/events', [EventController::class, 'index'])->name('events.index');

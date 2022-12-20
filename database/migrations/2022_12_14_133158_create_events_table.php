@@ -16,13 +16,14 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->integer('id_user');
-            $table->string('nickname');
-            $table->string('date');
+            $table->string('image')->nullable();
+            $table->string('title');
+            $table->date('date');
             $table->string('type');
             $table->string('hours');
             $table->string('adress');
             $table->string('city');
-            $table->integer('zip-code');
+            $table->integer('zip_code');
             $table->string('description');
             $table->timestamps();
         });
