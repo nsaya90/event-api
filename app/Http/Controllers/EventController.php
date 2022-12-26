@@ -5,14 +5,33 @@ namespace App\Http\Controllers;
 use App\Models\Events;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
     public function index()
     {
         $events = Events::all();
+
+
+
         return response()->json(["events" => $events]);
     }
+
+    public function detail($id_event)
+    {
+
+
+        $detail = DB::table('events')
+            ->where('id', '=', $id_event)
+            ->get();
+
+
+
+        return response()->json(["events" => $detail]);
+    }
+
     public function store(Request $request)
     {
 

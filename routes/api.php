@@ -38,3 +38,6 @@ Route::post('/upload', [EventController::class, 'upload'])->name('upload.store')
 
 // Récupération de tous les événements
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
+
+// Récupération info d'un événement
+Route::get('/event-detail/{id_event}', [EventController::class, 'detail'])->name('detail');
