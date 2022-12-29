@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\FilterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,3 +43,41 @@ Route::get('/events', [EventController::class, 'index'])->name('events.index');
 
 // Récupération info d'un événement
 Route::get('/event-detail/{id_event}', [EventController::class, 'detail'])->name('detail');
+
+// Filtrer des événement
+// Par date
+Route::get('/filter', [FilterController::class, 'filter_date'])->name('filter_date');
+
+Route::get('/filter/{firstDate}/{secondDate}', function (Request $request) {
+    $first = $request['firstDate'];
+    $second = $request['secondDate'];
+
+    $filter = DB::table('events')
+        ->whereBetween('date', [$first, $second])
+        ->get();
+
+    return response()->json(['filter' => $filter]);
+});
+
+// Par type
+Route::get('/filter/{type}', function (Request $request) {
+
+    $type = $request['type'];
+
+    $filter = DB::table('events')
+        ->where('type', '=', $type)
+        ->get();
+
+    return response()->json(['filter' => $filter]);
+});
+// Par ville
+Route::get('/filter/{city}', function (Request $request) {
+
+    $city = $request['city'];
+
+    $filter = DB::table('events')
+        ->where('city', '=', $city)
+        ->get();
+
+    return response()->json(['filter' => $filter]);
+});

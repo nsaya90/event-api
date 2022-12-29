@@ -27,8 +27,6 @@ class EventController extends Controller
             ->where('id', '=', $id_event)
             ->get();
 
-
-
         return response()->json(["events" => $detail]);
     }
 
@@ -70,7 +68,7 @@ class EventController extends Controller
             'date' => $request['date'],
             'hours' => $request['hours'],
             'adress' => $request['adress'],
-            'city' => $request['city'],
+            'city' => strtolower($request['city']),
             'zip_code' => $request['zip_code'],
             'description' => $request['description'],
 
