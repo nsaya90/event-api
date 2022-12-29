@@ -19,12 +19,24 @@ class FilterController extends Controller
         return response()->json(['filter' => $filter]);
     }
 
-    public function filter_category(Request $request)
+    public function filter_type(Request $request, $type)
     {
-        $category = $request['type'];
+        $type = $request['type'];
 
         $filter = DB::table('events')
-            ->where('type', [$category])
+            ->where('type', '=', $type)
+            ->get();
+
+        return response()->json(['filter' => $filter]);
+    }
+
+
+    public function filter_city(Request $request, $city)
+    {
+        $city = $request['city'];
+
+        $filter = DB::table('events')
+            ->where('city', '=', $city)
             ->get();
 
         return response()->json(['filter' => $filter]);

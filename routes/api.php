@@ -46,38 +46,11 @@ Route::get('/event-detail/{id_event}', [EventController::class, 'detail'])->name
 
 // Filtrer des événement
 // Par date
-Route::get('/filter', [FilterController::class, 'filter_date'])->name('filter_date');
+Route::get('/filter-date/{firstDate}/{secondDate}', [FilterController::class, 'filter_date'])->name('filter_date');
 
-Route::get('/filter/{firstDate}/{secondDate}', function (Request $request) {
-    $first = $request['firstDate'];
-    $second = $request['secondDate'];
-
-    $filter = DB::table('events')
-        ->whereBetween('date', [$first, $second])
-        ->get();
-
-    return response()->json(['filter' => $filter]);
-});
 
 // Par type
-Route::get('/filter/{type}', function (Request $request) {
+Route::get('/filter-type/{type}', [FilterController::class, 'filter_type'])->name('filter_type');
 
-    $type = $request['type'];
-
-    $filter = DB::table('events')
-        ->where('type', '=', $type)
-        ->get();
-
-    return response()->json(['filter' => $filter]);
-});
 // Par ville
-Route::get('/filter/{city}', function (Request $request) {
-
-    $city = $request['city'];
-
-    $filter = DB::table('events')
-        ->where('city', '=', $city)
-        ->get();
-
-    return response()->json(['filter' => $filter]);
-});
+Route::get('/filter-city/{city}', [FilterController::class, 'filter_city'])->name('filter_city');
